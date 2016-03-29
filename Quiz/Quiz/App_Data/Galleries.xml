@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<galleries>
+  <gallery id="1" name="Witcher 3">
+    <image src="/Witcher 3/1.png"/>
+    <image src="/Witcher 3/2.png"/>
+    <image src="/Witcher 3/3.jpg"/>
+  </gallery>
+  <gallery id="2" name="Call of Duty Black Ops 3">
+    <image src="/Call od Duty Black Ops 3/1.jpg"/>
+    <image src="/Call od Duty Black Ops 3/2.jpg"/>
+    <image src="/Call od Duty Black Ops 3/3.jpg"/>
+  </gallery>
+</galleries>

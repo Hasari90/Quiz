@@ -1,0 +1,84 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Co to za gra?</title>
+    <script src="~/Scripts/jquery-2.1.0.min.js" type="text/javascript"></script>
+    <script src="~/Scripts/jquery.tmpl.min.js" type="text/javascript"></script>
+    <script id="answerTmpl" type="text/x-jquery-tmpl">
+        <input type="radio" name="answerId" value="${AnswerId}" />
+        <label>${Name}</label>
+        <br />
+    </script>
+    <script id="imageTmpl" type="text/x-jquery-tmpl">
+        <img src="${$item.data}" width="500" height="280" />
+        <br />
+    </script>
+    <script id="questionTmpl" type="text/x-jquery-tmpl">
+        {{tmpl(ImagePath) "#imageTmpl"}}
+        <form method="POST" name="questionForm">
+            {{tmpl(Answers) "#answerTmpl"}}
+        </form>
+    </script>
+    <script id="correctAnswerTmpl" type="text/x-jquery-tmpl">
+        <h3>Poprawna odpowiedź to: ${Result}</h3>
+        {{if IsCorrect === true}}
+        <h4>Brawo!</h4>
+        {{else}}
+        <h4>Niestety nie udzieliłeś poprawnej odpowiedzi!</h4>
+        {{/if}}
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.ajax({
+                url: '@Url.Action("GetQuestion")',
+                dataType: "JSON",
+                success: function (data) {
+                    $("#content").empty();
+                    $("#questionTmpl").tmpl(data).appendTo("#content");
+                },
+                error: function () {
+                    alert("Problem z pobraniem danych");
+                }
+            });
+        });
+
+        $(document).ready(function () {
+            $("#check").click(function () {
+                $.ajax({
+                    url: '@Url.Action("CheckAnswer")',
+                    dataType: "JSON",
+                    type: "post",
+                    data: $("form[name=questionForm]").serialize(),
+                    success: function (dataRes) {
+                        $("#answer").empty();
+                        $("#correctAnswerTmpl").tmpl(dataRes).appendTo("#answer");
+                        $("#content").empty();
+                        $("#questionTmpl").tmpl(dataRes).appendTo("#content");
+                    },
+                    error: function() {
+                        alert("Problem z pobraniem danych");
+                    }
+                });
+                return false;
+            });
+        });
+    </script>
+</head>
+<body>
+    <div id="answer">
+
+    </div>
+    <h2>Co to za gra?</h2>
+    <div id="content">
+
+    </div>
+    <input type="button" value="Sprawdź!" id="check" />
+</body>
+</html>
+

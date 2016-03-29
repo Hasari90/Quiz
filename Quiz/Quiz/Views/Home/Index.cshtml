@@ -1,0 +1,39 @@
+﻿@model Quiz.ViewModels.QuestionViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Co to za gra?</title>
+</head>
+<body>
+    @if (Model.Result != null)
+    {
+        <h2>Poprawna odpowiedź to: @Model.Result</h2>
+        if (Model.IsCorrect)
+        {
+            <h3>Brawo! Udzieliłeś poprawnej odpowiedzi</h3>
+        }
+        else
+        {
+            <h3>Niestety! Nie udzieliłeś poprawnej odpowiedzi</h3>
+        }
+    }
+    <h2>Co to za gra?</h2>
+    <img src="@Url.Content(Model.ImagePath)" width="500" height="280" />
+    @using (Html.BeginForm("Index", "Home"))
+    {
+        foreach (var answer in Model.Answers)
+        {
+            <input type="radio" name="answerId" value="@answer.AnswerId" />
+            <label>@answer.Name</label>
+            <br />
+        }
+        <input type="submit" value="Sprawdź!" />
+    }
+</body>
+</html>
